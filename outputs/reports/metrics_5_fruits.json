@@ -1,0 +1,75 @@
+{
+  "accuracy": 0.9249,
+  "confusion_matrix": [
+    [
+      166,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      154,
+      2,
+      0,
+      0
+    ],
+    [
+      2,
+      0,
+      162,
+      0,
+      0
+    ],
+    [
+      48,
+      8,
+      0,
+      110,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      159
+    ]
+  ],
+  "class_names": [
+    "Banana 1",
+    "Kiwi 1",
+    "Pear 1",
+    "Mango 1",
+    "Orange 1"
+  ],
+  "per_class": {
+    "Banana 1": {
+      "precision": 0.7685,
+      "recall": 1.0,
+      "f1": 0.8691
+    },
+    "Kiwi 1": {
+      "precision": 0.9448,
+      "recall": 0.9872,
+      "f1": 0.9655
+    },
+    "Pear 1": {
+      "precision": 0.9878,
+      "recall": 0.9878,
+      "f1": 0.9878
+    },
+    "Mango 1": {
+      "precision": 1.0,
+      "recall": 0.6627,
+      "f1": 0.7971
+    },
+    "Orange 1": {
+      "precision": 1.0,
+      "recall": 0.9938,
+      "f1": 0.9969
+    }
+  },
+  "n_samples": 812
+}

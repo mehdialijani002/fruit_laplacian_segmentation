@@ -1,23 +1,3 @@
-# Fruit Segmentation Using Grayscale Laplacian Pyramid Features
-
-Classical Computer Vision approach for fruit segmentation and classification using only grayscale texture information extracted from a multi-scale Laplacian Pyramid. No deep learning, no color features.
-
----
-
-## Assignment Context
-
-This is Assignment 2 for a Computer Vision course — **Group 4**.
-
-**Group 4 constraints:**
-- Input: RGB image, immediately converted to grayscale (library call allowed).
-- All feature extraction must use **grayscale information only** — no RGB, HSV, or color-based features.
-- The Laplacian Pyramid must be built with **own code**, not a library function.
-- Feature extraction and classification are implemented from scratch.
-- No CNNs, deep learning, pretrained models (YOLO, SAM, U-Net, etc.).
-- Training uses only `Fruits-360/Training` — test data is never used for parameter tuning.
-
----
-
 ## Datasets
 
 The project expects two datasets placed manually:
@@ -32,11 +12,13 @@ data/
 ```
 
 ### Fruits-360
+
 - GitHub: https://github.com/Horea94/Fruit-Images-Dataset
 - Kaggle: https://www.kaggle.com/moltean/fruits
 - Download and extract so that `data/fruits-360/Training/` exists with one subfolder per class.
 
 ### Fruits-262
+
 - Kaggle: https://www.kaggle.com/datasets/aelchimminut/fruits262
 - Used only for visual proof-of-concept — not for training or parameter tuning.
 
@@ -85,6 +67,7 @@ python scripts/evaluate_5_fruits.py
 ```
 
 Outputs:
+
 - `outputs/reports/metrics_5_fruits.json`
 - `outputs/reports/evaluation_5_fruits.csv`
 - `outputs/reports/confusion_matrix_5_fruits.png`
@@ -96,38 +79,33 @@ Outputs:
 python scripts/predict_image.py path/to/image.jpg
 ```
 
-### 5. Demo on a folder (Fruits-262 or custom)
-
-```bash
-python scripts/run_demo.py data/fruits-262/SomeFruitFolder --max 20
-```
-
----
-
 ## Configuration
 
 All main parameters live in `config.yaml`:
 
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `selected_fruits` | 5 fruits | Which classes to train/evaluate |
-| `pyramid_levels` | 4 | Number of Laplacian Pyramid levels |
-| `block_sizes` | [8,8,4,4] | Block size per pyramid level |
-| `image_size` | 100 | Resize input to N×N before processing |
-| `background_threshold` | 230 | Gray ≥ this → background pixel |
-| `distance_metric` | normalized | `euclidean` or `normalized` |
+| Parameter              | Default    | Description                           |
+| ---------------------- | ---------- | ------------------------------------- |
+| `selected_fruits`      | 5 fruits   | Which classes to train/evaluate       |
+| `pyramid_levels`       | 4          | Number of Laplacian Pyramid levels    |
+| `block_sizes`          | [8,8,4,4]  | Block size per pyramid level          |
+| `image_size`           | 100        | Resize input to N×N before processing |
+| `background_threshold` | 230        | Gray ≥ this → background pixel        |
+| `distance_metric`      | normalized | `euclidean` or `normalized`           |
 
 ---
 
 ## Algorithm
 
 ### 1. Grayscale conversion
+
 `cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)` — library call, allowed by assignment.
 
 ### 2. Background removal
+
 Simple threshold: pixels with gray value ≥ `background_threshold` are background. Works well on the white-background images in Fruits-360.
 
 ### 3. Laplacian Pyramid (own code)
+
 We build a Gaussian pyramid by iteratively blurring and downsampling. The Laplacian pyramid is computed as the difference between consecutive Gaussian levels:
 
 ```
@@ -136,11 +114,14 @@ L[last] = G[last]   (residual)
 ```
 
 Each level captures a band of spatial frequencies:
+
 - Level 0: fine details (edges, surface texture)
 - Higher levels: coarser structure
 
 ### 4. Block-based feature extraction (own code)
+
 For each pyramid level, the image is divided into non-overlapping blocks. Per block we compute:
+
 - Mean absolute response
 - Standard deviation
 - Variance
@@ -152,14 +133,17 @@ For each pyramid level, the image is divided into non-overlapping blocks. Per bl
 Features from all levels are concatenated into a single descriptor vector per image.
 
 ### 5. Prototype creation (training)
+
 For each class, we average feature vectors over all training images → class prototype (mean + std for normalization).
 
 ### 6. Classification
+
 At prediction time, each block's feature vector is compared to all class prototypes using normalized Euclidean distance. The nearest prototype wins. Background blocks (low foreground fraction) are excluded.
 
 For image-level classification, majority vote over non-background blocks is used.
 
 ### 7. Segmentation output
+
 Block labels are upsampled to pixel resolution. A color overlay is generated for visualization — colors are only used in the display, not in the classification pipeline.
 
 ---
@@ -226,10 +210,9 @@ python scripts/train_5_fruits.py
 # 2. Evaluate and generate figures
 python scripts/evaluate_5_fruits.py
 
-# 3. Copy figures into docs/figures/ for the LaTeX report
-python scripts/prepare_report_assets.py
 
-# 4. Compile the LaTeX report to PDF
+
+# 3. Compile the LaTeX report to PDF
 cd docs
 pdflatex project_report_for_teacher.tex
 bibtex project_report_for_teacher
@@ -243,10 +226,10 @@ The compiled PDF will be at `docs/project_report_for_teacher.pdf`.
 
 ## References
 
-1. Burt, P.J. and Adelson, E.H. (1983). *The Laplacian pyramid as a compact image code.* IEEE Transactions on Communications, 31(4), 532–540.
+1. Burt, P.J. and Adelson, E.H. (1983). _The Laplacian pyramid as a compact image code._ IEEE Transactions on Communications, 31(4), 532–540.
 
-2. Mureşan, H. and Oltean, M. (2018). *Fruit recognition from images using deep learning.* Acta Universitatis Sapientiae, Informatica, 10(1), 26–42. (Fruits-360 dataset paper)
+2. Mureşan, H. and Oltean, M. (2018). _Fruit recognition from images using deep learning._ Acta Universitatis Sapientiae, Informatica, 10(1), 26–42. (Fruits-360 dataset paper)
 
 3. Fruits-262 dataset: https://www.kaggle.com/datasets/aelchimminut/fruits262
 
-4. Sokolova, M. and Lapalme, G. (2009). *A systematic analysis of performance measures for classification tasks.* Information Processing & Management, 45(4), 427–437.
+4. Sokolova, M. and Lapalme, G. (2009). _A systematic analysis of performance measures for classification tasks._ Information Processing & Management, 45(4), 427–437.
