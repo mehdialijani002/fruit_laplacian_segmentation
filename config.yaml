@@ -1,0 +1,49 @@
+# Fruit Laplacian Segmentation — configuration
+
+# Which fruit classes to use (must match folder names under data/fruits-360/Training/)
+selected_fruits:
+  - Banana 1
+  - Kiwi 1
+  - Pear 1
+  - Mango 1
+  - Orange 1
+
+# Laplacian Pyramid
+pyramid_levels: 4
+
+# Block sizes per pyramid level (index 0 = finest / level-0)
+# Finer levels use smaller blocks; coarser levels use larger blocks
+block_sizes:
+  - 8    # level 0
+  - 8    # level 1
+  - 4    # level 2
+  - 4    # level 3
+
+# Image resize for training (square)
+image_size: 100
+
+# Grayscale intensity threshold to detect near-white background
+# Pixels with gray value >= background_threshold are considered background
+background_threshold: 230
+
+# Distance metric for prototype classification: "euclidean" or "normalized"
+distance_metric: normalized
+
+# Minimum fraction of non-background blocks to trust a prediction
+min_foreground_fraction: 0.05
+
+# Paths
+data:
+  fruits360_train: data/fruits-360/Training
+  fruits360_test:  data/fruits-360/Test
+  fruits360_multi: data/fruits-360/test-multiple_fruits
+  fruits262:       data/fruits-262
+
+outputs:
+  models:        outputs/models
+  reports:       outputs/reports
+  examples:      outputs/examples
+  segmentations: outputs/segmentations
+
+# Model filename (saved inside outputs/models/)
+model_filename: prototypes_5_fruits.pkl
