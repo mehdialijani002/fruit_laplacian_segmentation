@@ -14,19 +14,7 @@ build/
 data/fruits-360/
 data/fruits-262/
 
-# Large model outputs
-outputs/models/*.pkl
-outputs/models/*.json
-outputs/reports/
-outputs/examples/
-outputs/segmentations/
 
-# Keep folder structure
-!outputs/.gitkeep
-!outputs/models/.gitkeep
-!outputs/reports/.gitkeep
-!outputs/examples/.gitkeep
-!outputs/segmentations/.gitkeep
 
 # OS
 .DS_Store
