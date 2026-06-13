@@ -1,8 +1,3 @@
-"""
-Evaluation on Fruits-360 Test set.
-Image-level classification: majority vote over non-background blocks.
-"""
-
 import logging
 from pathlib import Path
 

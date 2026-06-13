@@ -1,28 +1,9 @@
-"""
-Block-based feature extraction from Laplacian Pyramid levels.
-
-For each pyramid level we divide the image into non-overlapping blocks
-and compute texture/activity statistics in each block.
-
-Features per block:
-  - mean absolute response (activity)
-  - standard deviation
-  - variance
-  - min-max range
-  - energy (mean squared response)
-  - mean (DC component)
-  - second moment
-
-OWN IMPLEMENTATION: all block iteration and statistics are computed with NumPy.
-"""
-
 from typing import NamedTuple
 
 import numpy as np
 
 
 class BlockFeatures(NamedTuple):
-    """Feature vector names for documentation / debugging."""
     mean_abs: float
     std: float
     variance: float
@@ -37,7 +18,6 @@ N_FEATURES_PER_LEVEL = len(FEATURE_NAMES)
 
 
 def _block_stats(block: np.ndarray) -> np.ndarray:
-    """Compute feature vector for a single block. Returns float32 array of length 7."""
     flat = block.ravel().astype(np.float32)
     mean_abs = float(np.mean(np.abs(flat)))
     std = float(np.std(flat))
@@ -58,20 +38,7 @@ def extract_level_features(
     block_size: int,
     foreground_mask: np.ndarray | None = None,
 ) -> tuple[np.ndarray, np.ndarray]:
-    """
-    Extract block features from one Laplacian pyramid level.
-
-    Parameters
-    ----------
-    lap_level : 2D float array
-    block_size : block side length in pixels (for this level)
-    foreground_mask : optional binary mask (1=foreground, 0=background) at the same resolution
-
-    Returns
-    -------
-    feature_grid : shape (n_row_blocks, n_col_blocks, N_FEATURES_PER_LEVEL)
-    fg_grid      : shape (n_row_blocks, n_col_blocks) — fraction of foreground pixels per block
-    """
+  
     h, w = lap_level.shape[:2]
     n_rows = max(1, h // block_size)
     n_cols = max(1, w // block_size)
@@ -98,14 +65,7 @@ def extract_pyramid_features(
     block_sizes: list[int],
     foreground_mask: np.ndarray | None = None,
 ) -> tuple[np.ndarray, np.ndarray]:
-    """
-    Extract and concatenate features across all pyramid levels.
-
-    Returns
-    -------
-    feature_vector : 1D float32 array — concatenated mean features over all foreground blocks
-    fg_fraction    : overall fraction of foreground blocks
-    """
+ 
     level_vectors = []
     fg_fractions = []
 
@@ -139,7 +99,6 @@ def extract_pyramid_features(
 
 
 def cv2_resize_mask(mask: np.ndarray, target_h: int, target_w: int) -> np.ndarray:
-    """Resize a binary mask to (target_h, target_w) using nearest-neighbour."""
     import cv2
     resized = cv2.resize(mask.astype(np.float32), (target_w, target_h), interpolation=cv2.INTER_NEAREST)
     return (resized > 0.5).astype(np.uint8)

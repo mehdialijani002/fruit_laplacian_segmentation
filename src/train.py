@@ -1,13 +1,3 @@
-"""
-Training: build per-class feature prototypes from Fruits-360 Training images.
-
-For each fruit class:
-  1. Load images, convert to grayscale, remove white background.
-  2. Build Laplacian Pyramid.
-  3. Extract block-based features.
-  4. Compute class prototype = mean feature vector + std for normalization.
-"""
-
 import logging
 import pickle
 from pathlib import Path
@@ -29,10 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 def train(config_path: str | None = None) -> dict:
-    """
-    Train prototypes for all selected fruits.
-    Returns the prototype dictionary (also saved to disk).
-    """
+  
     cfg = load_config(config_path)
     selected = cfg["selected_fruits"]
     train_dir = cfg["data"]["fruits360_train"]
@@ -97,7 +84,6 @@ def train(config_path: str | None = None) -> dict:
 
 
 def load_prototypes(model_path: str) -> tuple[dict, dict]:
-    """Load saved prototypes and their config from disk."""
     with open(model_path, "rb") as f:
         data = pickle.load(f)
     return data["prototypes"], data["config"]

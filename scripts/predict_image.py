@@ -1,5 +1,3 @@
-"""Run prediction on a single image and save segmentation output."""
-
 import argparse
 import sys
 from pathlib import Path

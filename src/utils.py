@@ -1,5 +1,3 @@
-"""Miscellaneous helpers."""
-
 import logging
 import sys
 

@@ -1,13 +1,3 @@
-"""
-Prediction: classify an image using trained prototypes.
-
-For each block of the image:
-  1. Build Laplacian Pyramid.
-  2. Extract features per block per level.
-  3. Compare to stored prototypes with Euclidean / normalized distance.
-  4. Assign the nearest class (or background if activity too low).
-"""
-
 import logging
 from pathlib import Path
 
@@ -26,7 +16,6 @@ logger = logging.getLogger(__name__)
 
 
 def _distance(feat: np.ndarray, proto_mean: np.ndarray, proto_std: np.ndarray, metric: str) -> float:
-    """Compute distance between a feature vector and a prototype."""
     diff = feat - proto_mean
     if metric == "normalized":
         diff = diff / proto_std
@@ -38,15 +27,7 @@ def predict_image(
     prototypes: dict,
     cfg: dict,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """
-    Classify an image into fruit classes.
-
-    Returns
-    -------
-    label_map   : (H, W) int array — class index per pixel (-1 = background)
-    color_mask  : (H, W, 3) BGR array — colored segmentation for visualization
-    orig_bgr    : (H, W, 3) BGR array — resized original image
-    """
+  
     size = cfg["image_size"]
     bg_thresh = cfg["background_threshold"]
     levels = cfg["pyramid_levels"]
@@ -135,11 +116,7 @@ def predict_class(
     prototypes: dict,
     cfg: dict,
 ) -> tuple[str, float]:
-    """
-    Predict image-level class using the same feature pipeline as training:
-    extract_pyramid_features on the whole image, compare to per-class prototypes.
-    Returns (predicted_class_name, confidence_as_inverse_relative_distance).
-    """
+    
     from .data_utils import load_image_gray, make_foreground_mask
     from .pyramid import build_laplacian_pyramid
     from .features import extract_pyramid_features

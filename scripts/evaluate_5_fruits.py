@@ -1,5 +1,3 @@
-"""Evaluate trained model on Fruits-360 Test set."""
-
 import argparse
 import sys
 from pathlib import Path

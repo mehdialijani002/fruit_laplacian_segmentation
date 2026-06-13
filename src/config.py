@@ -1,5 +1,3 @@
-"""Load and expose configuration from config.yaml."""
-
 from pathlib import Path
 import yaml
 
@@ -7,7 +5,6 @@ _PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 
 def load_config(config_path: str | None = None) -> dict:
-    """Load config.yaml relative to the project root."""
     if config_path is None:
         config_path = _PROJECT_ROOT / "config.yaml"
     with open(config_path, "r") as f:

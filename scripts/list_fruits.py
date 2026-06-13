@@ -1,5 +1,3 @@
-"""List all available fruit classes in the Training folder."""
-
 import argparse
 import sys
 from pathlib import Path

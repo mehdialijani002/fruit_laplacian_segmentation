@@ -1,17 +1,3 @@
-"""
-prepare_report_assets.py
-========================
-Copies output assets into docs/figures/ for LaTeX / Overleaf compilation.
-
-Copies per-class correct examples (correct_example_banana.jpg, etc.),
-one wrong example, confusion matrix, segmentation overlay, and Fruits-262 demo.
-
-Usage
------
-    python scripts/prepare_report_assets.py
-    python scripts/prepare_report_assets.py --project-root /path/to/project
-"""
-
 import argparse
 import shutil
 import sys

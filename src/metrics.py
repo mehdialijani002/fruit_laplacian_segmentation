@@ -1,5 +1,3 @@
-"""Compute and save classification metrics."""
-
 import json
 import logging
 from pathlib import Path
@@ -10,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 
 def compute_metrics(y_true: list[str], y_pred: list[str], class_names: list[str]) -> dict:
-    """Compute accuracy, precision, recall, F1, confusion matrix."""
     if not y_true:
         return {"accuracy": 0.0, "confusion_matrix": [], "per_class": {}}
 

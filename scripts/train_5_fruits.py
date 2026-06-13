@@ -1,5 +1,3 @@
-"""Train prototypes for the 5 selected fruit classes."""
-
 import argparse
 import sys
 from pathlib import Path

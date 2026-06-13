@@ -1,5 +1,3 @@
-"""Visualization utilities — color is used ONLY for display, not for classification."""
-
 import logging
 from pathlib import Path
 
@@ -15,7 +13,6 @@ logger = logging.getLogger(__name__)
 
 
 def save_segmentation(image_path: str, prototypes: dict, cfg: dict, out_dir: Path) -> None:
-    """Run prediction and save original, mask, and overlay to out_dir."""
     out_dir.mkdir(parents=True, exist_ok=True)
     stem = Path(image_path).stem
 
@@ -24,7 +21,6 @@ def save_segmentation(image_path: str, prototypes: dict, cfg: dict, out_dir: Pat
     cv2.imwrite(str(out_dir / f"{stem}_original.jpg"), orig_bgr)
     cv2.imwrite(str(out_dir / f"{stem}_mask.png"), color_mask)
 
-    # Overlay: blend mask onto original
     overlay = cv2.addWeighted(orig_bgr, 0.6, color_mask, 0.4, 0)
     cv2.imwrite(str(out_dir / f"{stem}_overlay.jpg"), overlay)
 
@@ -42,7 +38,6 @@ def save_example(
     cfg: dict,
     prototypes: dict,
 ) -> None:
-    """Save a single example with overlay and label text."""
     out_dir.mkdir(parents=True, exist_ok=True)
     stem = Path(image_path).stem
     label_map, color_mask, orig_bgr = predict_image(image_path, prototypes, cfg)
@@ -55,7 +50,6 @@ def save_example(
 
 
 def save_confusion_matrix_plot(cm: list, class_names: list[str], out_path: Path) -> None:
-    """Save a heatmap of the confusion matrix."""
     cm_arr = np.array(cm)
     fig, ax = plt.subplots(figsize=(max(5, len(class_names)), max(4, len(class_names))))
     im = ax.imshow(cm_arr, cmap="Blues")

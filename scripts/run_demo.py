@@ -1,8 +1,3 @@
-"""
-Demo: run prediction on multiple Fruits-262 or custom images.
-Saves original, mask, and overlay for each image.
-"""
-
 import argparse
 import sys
 from pathlib import Path
